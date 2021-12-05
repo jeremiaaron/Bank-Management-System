@@ -182,13 +182,13 @@ int main()
     
     BankAccount b, *root = NULL;
     
-    root = b.Insert(root, 50);
-    b.Insert(root, 30);
-    b.Insert(root, 20);
-    b.Insert(root, 40);
-    b.Insert(root, 70);
-    b.Insert(root, 60);
-    b.Insert(root, 80);
+    root = b.Insert(root, 12450, "James", 13456, 'M', 23, 5000.0);
+    b.Insert(root, 12467, "Mac", 12386, 'M', 28, 7000.0);
+    b.Insert(root, 12488, "Earl", 14876, 'M', 21, 2500.0);
+    b.Insert(root, 12431, "May", 13984, 'F', 31, 15000.0);
+    b.Insert(root, 12442, "Brad", 10987, 'M', 28, 50000.0);
+    b.Insert(root, 12479, "Jodi", 17456, 'F', 20, 16000.0);
+    b.Insert(root, 12426, "Tilly", 18945, 'F', 25, 27000.0);
  
     cout << "Inorder traversal of the given tree \n";
     b.Inorder(root);

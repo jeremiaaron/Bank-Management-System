@@ -272,7 +272,7 @@ int Node::getLastNum(Node* node) {
 }
 
 // Display a user's Bank Account info
-void Node::showAccountInfo(Node* node, int num) {
+int Node::showAccountInfo(Node* node, int num) {
     // Traverse through the Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -282,12 +282,14 @@ void Node::showAccountInfo(Node* node, int num) {
         else if(num > node->num)
             node = node->right;
         // If Bank Account No. matches the Bank Account No. on the current Node, display the user's necessary account info
-        else {
+        else if(num == node->num){
+        	cout << endl;
             cout << "Account No. : " << node->num << endl;
             cout << "Name        : " << node->name << endl;
             cout << "NIK         : " << node->nik << endl;
             cout << "Gender      : " << node->gender << endl;
             cout << "Balance     : " << node->bal << endl << endl;
+            return 0;
         }
     }
 }
@@ -333,6 +335,7 @@ void Node::depositFunds(Node* node, int num, float bal) {
         else if(num == node->num) {
                 // Add the deposit to the user's account current balance
                 node->bal += bal;
+                cout << "Deposit Success" << endl;
         }
     }
 }
@@ -360,6 +363,7 @@ bool Node::withdrawFunds(Node* node, int num, float bal) {
             else
                 // Else withdraw the fund of the user's account current balance
                 node->bal -= bal;
+                cout << "Withdraw Success" << endl;
                 return true;
         }
     }

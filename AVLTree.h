@@ -5,16 +5,19 @@ using namespace std;
 
 class Node {
 public:
-    int pin;
-    int num;
-    string name;
-    string nik;
-    string gender;
-    int bal;
+    // Declare necessary variables for user's Bank Account 
+    int pin; // PIN Number
+    int num; // Bank Account No.
+    string name; // User's Full Name
+    string nik; // ID Number or Nomor Induk Kependudukan
+    string gender; // Either Male or Female
+    int bal; // User's Current Balance
 
+    // Left and right pointer for branches and height for Balance Factor
     Node *right, *left;
     int height;
 
+    // Node constructor of a parameterized Bank Account
     Node(int pin, int num, string name, string nik, string gender, int bal) {
         this->pin = pin;
         this->num = num;
@@ -24,6 +27,7 @@ public:
         this->bal = bal;
     }
 
+    // Declare necessary function prototype
     int getHeight(Node* node);
     Node* leftRotation(Node* node2);
     Node* rightRotation(Node* node2);

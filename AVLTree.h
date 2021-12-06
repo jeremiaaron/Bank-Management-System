@@ -41,7 +41,7 @@ public:
     bool findAccount(Node* node, int num);
     bool pinValidator(Node* node, int num, int pin);
     int getLastNum(Node* node);
-    void showAccountInfo(Node* node, int num);
+    int showAccountInfo(Node* node, int num);
     void displayAllAccounts(Node* node);
     void depositFunds(Node* node, int num, float bal);
     bool withdrawFunds(Node* node, int num, float bal);

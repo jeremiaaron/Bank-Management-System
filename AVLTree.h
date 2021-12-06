@@ -39,11 +39,12 @@ public:
     Node* createAccount(Node* node, int pin, int num, string name, string nik, string gender, float bal);
     Node* deleteAccount(Node* node, int num);
     bool findAccount(Node* node, int num);
+    bool pinValidator(Node* node, int num, int pin);
     int getLastNum(Node* node);
     void showAccountInfo(Node* node, int num);
     void displayAllAccounts(Node* node);
-    int depositFunds(Node* node, int pin, int num, float bal);
-    int withdrawFunds(Node* node, int pin, int num, float bal);
+    void depositFunds(Node* node, int num, float bal);
+    bool withdrawFunds(Node* node, int num, float bal);
     void modifyInfo(Node* node, int pin, int num, string name, string nik, string gender, float bal);
 };
 

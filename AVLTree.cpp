@@ -191,22 +191,22 @@ Node* Node::deleteAccount(Node* node, int num) {
 
         // If the left child is NUll, then replace the Node to be deleted with Node from the right child
         if(node->left == NULL) {
-            node = node->right;
-            delete tempNode;	
-		}
+            node = node->right;	
+	}
         // If the right child is NUll, then replace the Node to be deleted with Node from the left child
         else if(node->right == NULL) {
             node = node->left;
-            delete tempNode;
         }
 
-        // The replaced Node needs to be balanced again since Balance Factors (at the replace Node) may have been affected by the Node replacement
-        // Check also that the Node is not NULL to make sure
-        if(node != NULL) {
-            node = balanceTree(node);
-        }
+	delete tempNode;
     }
-
+	
+    // The replaced Node needs to be balanced again since Balance Factors (at the replace Node) may have been affected by the Node replacement
+    // Check also that the Node is not NULL to make sure
+    if(node != NULL) {
+        node = balanceTree(node);
+    }
+	
     // Return to root Node
     return node;
 }

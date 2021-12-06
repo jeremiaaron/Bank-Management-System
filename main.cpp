@@ -8,6 +8,9 @@ Node* accounts = NULL;
 
 int mainMenu() {
     int menu;
+    
+    system("cls");
+    
     cout << "======================================" << endl;
     cout << "\tBANK MANAGEMENT SYSTEM\t\t" << endl;
     cout << "======================================" << endl << endl;
@@ -18,8 +21,6 @@ int mainMenu() {
     cout << "Enter your option: ";
     cin >> menu;
     getchar();
-
-    system("cls");
 
     return menu;
 }
@@ -77,7 +78,11 @@ void adminMenu() {
         do {
             system("cls");
 
-            cout << "Enter customer's full name (Enter "back" to menu): ";
+			/*do
+			{
+				
+			} while(!isalpha(name));*/
+            cout << "Enter customer's full name (Enter \"back\" to menu): ";
             getline(cin, name);
             
             if(name == "back")
@@ -160,9 +165,9 @@ void adminMenu() {
 			
 			system("cls");
 
-			cout << "==================================" << endl;;
+			cout << "========================================" << endl;;
 			cout << "|\tEnter New Account Info Below\t|" << endl;;
-			cout << "==================================" << endl;;
+			cout << "========================================" << endl;;
 			
             cout << "Enter new Account's name: ";
             getline(cin, name);
@@ -222,7 +227,9 @@ void adminMenu() {
 			do
 			{
 				cout << "Enter the Account's No. to be deleted (1 to menu): ";
-				cin >> num;
+				cin >> num; getchar();
+				
+				system("cls");
 				
 				if(num == 1)
 					adminMenu();
@@ -274,22 +281,26 @@ void adminMenu() {
     	
 		do
 		{
+			system("cls");
+			int n, num;
+	    	
 			do
 			{
 				cout << "Enter the Account's No. to be displayed (1 to menu): ";
-				cin >> num;
+				cin >> num; getchar();
 				
 				if(num == 1)
 					adminMenu();
-				
-				if(findAccount(accounts, num))
-					continue;
-				else
-					num = 0;
-					cout << "Account does not exist" << endl;
-			} while(num < 12410000 || num > 12419999);
+					
+				system("cls");
+					
+				if(accounts->findAccount(accounts, num) == false)
+					n = -1;
+				else n = 1;
+	
+			} while(n == -1);
 			
-			accounts->showAccountInfo(accounts, num);
+			n = accounts->showAccountInfo(accounts, num);
 			
 			cout << "Do you want to view another account? (Y/N): ";
             cin >> option; getchar();
@@ -315,7 +326,7 @@ void adminMenu() {
 			}
 
             cout << endl;
-		} while(option == 'Y' || option == 'y');*/
+		} while(option == 'Y' || option == 'y');
     }
 
     else if(menu == 6) {
@@ -353,17 +364,28 @@ int customerMenu() {
     	
     	system("cls");
     	
-		int num;
+		int n, num;
     	
-    	cout << "Enter your Bank Account No. (1 to menu): ";
-    	cin >> num;
+		do
+		{
+			cout << "Enter the Account's No. to be displayed (1 to menu): ";
+			cin >> num; getchar();
+			
+			if(num == 1)
+				adminMenu();
+			
+			system("cls");	
+			
+			if(accounts->findAccount(accounts, num) == false)
+				n = -1;
+			else n = 1;
+
+		} while(n == -1);
     	
     	if(num == 1)
     		customerMenu();
     	
-    	system("cls");
-        
-        accounts->showAccountInfo(accounts, num);
+    	n = accounts->showAccountInfo(accounts, num);
 
 		cout << "========================================" << endl;;
         cout << "|	1. Go back to Customer's' Menu		|" << endl;
@@ -388,19 +410,20 @@ int customerMenu() {
     	int pin;
     	int num;
     	float dep;
+    	char option;
     	
 		do
 		{
 			do
 			{
 				cout << "Enter your Bank Account No. (1 to menu): ";
-				cin >> num;
+				cin >> num; getchar();
 				
 				if(num == 1)
 					customerMenu();
 				
 				cout << "Enter your PIN : ";
-				cin >> pin;
+				cin >> pin; getchar();
 				
 				system("cls");
 
@@ -408,11 +431,9 @@ int customerMenu() {
 			
 			
 			cout << "Enter amount of deposit: ";
-			cin << dep;
+			cin >> dep; getchar();
 			
 			accounts->depositFunds(accounts, num, dep);
-			
-			cout << "Deposit Success" << endl;
 			
 			cout << "Do you want to deposit again? (Y/N): ";
             cin >> option; getchar();
@@ -448,19 +469,20 @@ int customerMenu() {
     	int pin;
     	int num;
     	float wit;
+    	char option;
     	
 		do
 		{
 			do
 			{
 				cout << "Enter your Bank Account No. (1 to menu): ";
-				cin >> num;
+				cin >> num; getchar();
 				
 				if(num == 1)
 					customerMenu();
 				
 				cout << "Enter your PIN : ";
-				cin >> pin;
+				cin >> pin; getchar();
 				
 				system("cls");
 
@@ -469,13 +491,11 @@ int customerMenu() {
 			do
 			{
 				cout << "Enter amount to withdraw: ";
-				cin << wit;
+				cin >> wit; getchar();
 				
 				system("cls");
 				
-			}(!accounts->withdrawFunds(accounts, num, wit);)
-			
-			cout << "Withdraw Success" << endl;
+			} while(!accounts->withdrawFunds(accounts, num, wit));
 			
 			cout << "Do you want to deposit again? (Y/N): ";
             cin >> option; getchar();

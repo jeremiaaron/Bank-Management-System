@@ -226,6 +226,7 @@ bool Node::findAccount(Node* node, int num) {
         else if(num == node->num)
             return true;
     }
+    cout << "Account does not exist" << endl;
     // Return false if the Node traversal has reached the leaf Node
     return false;
 }
@@ -334,12 +335,10 @@ void Node::depositFunds(Node* node, int num, float bal) {
                 node->bal += bal;
         }
     }
-    // Base return
-    return 0;
 }
 
 // Funciton to withdraw
-bool Node::withdrawFunds(Node* node, int pin, int num, float bal) {
+bool Node::withdrawFunds(Node* node, int num, float bal) {
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -352,15 +351,16 @@ bool Node::withdrawFunds(Node* node, int pin, int num, float bal) {
         
         // Check if Bank Account No. matches the Bank Account No. on the current Node
         else if(num == node->num) {
-                // If the withdrawal fund is larger than the amount of current balance, return -2 
-                if(node->bal < bal)
-                	cout << "Not enough balance" << endl;
-                    return false;
-                else
-                    // Else withdraw the fund of the user's account current balance
-                    node->bal -= bal;
-                    return true;
-            }
+            // If the withdrawal fund is larger than the amount of current balance, return -2 
+            if(node->bal < bal)
+            {
+            	cout << "Not enough balance" << endl;
+                return false;
+			}
+            else
+                // Else withdraw the fund of the user's account current balance
+                node->bal -= bal;
+                return true;
         }
     }
     // Base return
@@ -368,7 +368,7 @@ bool Node::withdrawFunds(Node* node, int pin, int num, float bal) {
 }
 
 // Function to modify a user's Bank Account
-void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, string gender, int bal) {
+void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, string gender, float bal) {
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch

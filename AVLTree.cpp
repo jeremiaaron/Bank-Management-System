@@ -288,7 +288,7 @@ int Node::showAccountInfo(Node* node, int num) {
             cout << "Name        : " << node->name << endl;
             cout << "NIK         : " << node->nik << endl;
             cout << "Gender      : " << node->gender << endl;
-            cout << "Balance     : " << node->bal << endl << endl;
+            cout << "Balance     : " << "Rp " << node->bal << ",00" << endl << endl;
             return 0;
         }
     }
@@ -311,7 +311,7 @@ void Node::displayAllAccounts(Node* node) {
         cout << "Name        : " << node->name << endl;
         cout << "NIK         : " << node->nik << endl;
         cout << "Gender      : " << node->gender << endl;
-        cout << "Balance     : " << node->bal << endl << endl;
+        cout << "Balance     : " << "Rp " << node->bal << ",00" << endl << endl;
 
         // Traverse to the right branch recrusively
         if(node->right != NULL)

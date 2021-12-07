@@ -124,7 +124,7 @@ void adminMenu() {
 			{
 				cout << "Enter customer's account PIN: ";
             	cin >> pin; getchar();
-			} while(pin < 1000000000 || pin > 9999999999);
+			} while(pin < 100000 || pin > 999999);
             
             do
             {

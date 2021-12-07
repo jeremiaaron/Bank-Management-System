@@ -1,10 +1,14 @@
 #include <iostream>
 #include "AVLTree.h"
+#include "TransacHistory.h"
+#include <regex>
+#include <string>
 using namespace std;
 
 int main();
 
 Node* accounts = NULL;
+Queue* transaction_History = new Queue(1000);
 
 int mainMenu() {
     int menu;
@@ -50,10 +54,10 @@ void adminMenu() {
         
         accounts->displayAllAccounts(accounts);
 
-		cout << "========================================" << endl;;
+		cout << "=================================================" << endl;;
         cout << "|	1. Go back to Administrator's Menu	|" << endl;
         cout << "|	2. Go back to Main Menu          	|" << endl;
-        cout << "========================================" << endl;;
+        cout << "=================================================" << endl;;
         
         int option;
         
@@ -69,30 +73,45 @@ void adminMenu() {
     else if(menu == 2) {
         string name;
         string nik;
-        string gender;
-        int num, accNum;
+        char gender;
+        int num, accNum, n = 0;
         int pin;
         float bal;
         char option;
+        int pass = 0;
 
         do {
             system("cls");
 
-			/*do
+        	/*do
 			{
-				
-			} while(!isalpha(name));*/
+				cout << "Enter customer's full name (Enter \"back\" to menu): ";
+            	getline(cin, name);
+            	
+            	system("cls");
+			} while((!regex_search(name, regex("/^[a-zA-Z]+(([ a-zA-Z])?[a-zA-Z]*)*$/"))) && cout << "Invalid Name" << endl);*/
             cout << "Enter customer's full name (Enter \"back\" to menu): ";
             getline(cin, name);
             
             if(name == "back")
             	adminMenu();
 
-            cout << "Enter customer's NIK: ";
-            cin >> nik; getchar();
+			do
+			{
+				cout << "Enter customer's NIK: ";
+            	cin >> nik; getchar();
+			} while(nik == "1000000000000000" || nik == "9999993112999999");
 
-            cout << "Enter customer's gender (F/M): ";
-            cin >> gender; getchar();
+			do
+			{
+				cout << "Enter customer's gender (F/M): ";
+            	cin >> gender; getchar();
+            	
+            	if(gender == 'F' || gender == 'M')
+            		pass = 1;
+            	
+			} while(pass == 0);
+
 
             accNum = accounts->getLastNum(accounts);
             if(accNum == 0)
@@ -101,11 +120,18 @@ void adminMenu() {
 
             cout << "The customer's account number is " << num << endl;
 
-            cout << "Enter customer's account PIN: ";
-            cin >> pin; getchar();
+			do
+			{
+				cout << "Enter customer's account PIN: ";
+            	cin >> pin; getchar();
+			} while(pin < 1000000000 || pin > 9999999999);
             
-            cout << "Enter the amount of initial deposit: ";
-            cin >> bal; getchar();
+            do
+            {
+            	cout << "Enter the amount of initial deposit (min. 50k): ";
+            	cin >> bal; getchar();
+			} while(bal < 50000);
+
             
             accounts = accounts->createAccount(accounts, pin, num, name, nik, gender, bal);
 
@@ -115,11 +141,11 @@ void adminMenu() {
             if(option == 'N' || option == 'n')
             {
             	system("cls");
-            	
-            	cout << "========================================" << endl;;
+
+            	cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -132,22 +158,21 @@ void adminMenu() {
             		main();
 			}
 
-            cout << endl;
         } while(option == 'Y' || option == 'y');
     }
 
     else if(menu == 3) {
 		string name;
         string nik;
-        string gender;
+        char gender;
         int num;
         int pin;
-        float bal;
+        int bal;
         char option;
         
         do {
             system("cls");
-
+          
 			do
 			{
 				cout << "Enter the Account's No. to be modified (1 to menu): ";
@@ -165,9 +190,9 @@ void adminMenu() {
 			
 			system("cls");
 
-			cout << "========================================" << endl;;
+			cout << "=========================================" << endl;;
 			cout << "|\tEnter New Account Info Below\t|" << endl;;
-			cout << "========================================" << endl;;
+			cout << "=========================================" << endl;;
 			
             cout << "Enter new Account's name: ";
             getline(cin, name);
@@ -195,10 +220,10 @@ void adminMenu() {
             {
             	system("cls");
             	
-            	cout << "========================================" << endl;;
+            cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -252,10 +277,10 @@ void adminMenu() {
             {
             	system("cls");
             	
-            	cout << "========================================" << endl;;
+            cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -309,10 +334,10 @@ void adminMenu() {
             {
             	system("cls");
             	
-            	cout << "========================================" << endl;;
+            	cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -327,15 +352,30 @@ void adminMenu() {
 
             cout << endl;
 		} while(option == 'Y' || option == 'y');
-    }
 
-    else if(menu == 6) {
+	  else if(menu == 6) {
+				
+		char answer;
 		
-    }
-
+		transaction_History->showHistory(transaction_History);
+		
+		cout << "Do you want to delete the whole history (Y/N)? ";
+	    cin >> answer;
+	        
+        if(tolower(answer) == 'y')
+        {
+        	transaction_History->dequeue_All(transaction_History);
+        	if(!transaction_History->isEmpty(transaction_History));
+        		cout << "Transaction history has been cleared";
+        		adminMenu();
+		}
+		else if(tolower(answer) == 'n')
+		{
+			adminMenu();
+		}
+	}
     else if(menu == 0)
-        main();
-
+       	main();
 
     system("cls");
 }
@@ -387,10 +427,10 @@ int customerMenu() {
     	
     	n = accounts->showAccountInfo(accounts, num);
 
-		cout << "========================================" << endl;;
-        cout << "|	1. Go back to Customer's' Menu		|" << endl;
+		cout << "=================================================" << endl;;
+        cout << "|	1. Go back to Customer's Menu		|" << endl;
         cout << "|	2. Go back to Main Menu          	|" << endl;
-        cout << "========================================" << endl;;
+        cout << "=================================================" << endl;;
         
         int option;
         
@@ -408,8 +448,8 @@ int customerMenu() {
     	system("cls");
     	
     	int pin;
-    	int num;
-    	float dep;
+    	int n, num;
+    	int dep;
     	char option;
     	
 		do
@@ -435,6 +475,8 @@ int customerMenu() {
 			
 			accounts->depositFunds(accounts, num, dep);
 			
+			transaction_History->enqueueDeposit(transaction_History, num, dep);
+			
 			cout << "Do you want to deposit again? (Y/N): ";
             cin >> option; getchar();
 
@@ -442,10 +484,10 @@ int customerMenu() {
             {
             	system("cls");
             	
-            	cout << "========================================" << endl;;
+            	cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Customer's Menu		|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -453,7 +495,7 @@ int customerMenu() {
         		cin >> option;
         		
         		if(option == 1)
-            		adminMenu();
+            		customerMenu();
         		if(option == 2)
             		main();
 			}
@@ -468,7 +510,7 @@ int customerMenu() {
     	
     	int pin;
     	int num;
-    	float wit;
+    	int wit;
     	char option;
     	
 		do
@@ -497,6 +539,8 @@ int customerMenu() {
 				
 			} while(!accounts->withdrawFunds(accounts, num, wit));
 			
+			transaction_History->enqueueWithdrawal(transaction_History, num, wit);
+			
 			cout << "Do you want to deposit again? (Y/N): ";
             cin >> option; getchar();
 
@@ -504,10 +548,10 @@ int customerMenu() {
             {
             	system("cls");
             	
-            	cout << "========================================" << endl;;
+            	cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Customer's Menu		|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
-        		cout << "========================================" << endl;;
+        		cout << "=================================================" << endl;;
         
         		int option;
         		
@@ -515,7 +559,7 @@ int customerMenu() {
         		cin >> option;
         		
         		if(option == 1)
-            		adminMenu();
+            		customerMenu();
         		if(option == 2)
             		main();
 			}
@@ -525,9 +569,31 @@ int customerMenu() {
     }
 
     else if(menu == 4) {
+			
+		char answer;
 		
-    }
+		transaction_History->showHistory(transaction_History);
+		
+		cout << "Do you want to delete the whole history (Y/N)? ";
+        cin >> answer;
+            
+        if(tolower(answer) == 'y')
+        {
+        	transaction_History->dequeue_All(transaction_History);
+        	if(!transaction_History->isEmpty(transaction_History));
+        		cout << "Transaction history has been cleared";
+        		customerMenu();
+		}
+		else if(tolower(answer) == 'n')
+		{
+			customerMenu();
+		}
+	}
+    else if(menu == 0)
+       	main();
 
+    system("cls");
+    	
     return menu;
 }
 

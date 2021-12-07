@@ -321,6 +321,7 @@ void Node::displayAllAccounts(Node* node) {
 
 // Function to deposit
 void Node::depositFunds(Node* node, int num, int bal) {
+  
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -342,6 +343,7 @@ void Node::depositFunds(Node* node, int num, int bal) {
 
 // Funciton to withdraw
 bool Node::withdrawFunds(Node* node, int num, int bal) {
+  
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -373,6 +375,7 @@ bool Node::withdrawFunds(Node* node, int num, int bal) {
 
 // Function to modify a user's Bank Account
 void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, char gender, int bal) {
+
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch

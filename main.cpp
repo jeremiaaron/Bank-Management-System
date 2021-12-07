@@ -76,7 +76,7 @@ void adminMenu() {
         char gender;
         int num, accNum, n = 0;
         int pin;
-        int bal;
+        float bal;
         char option;
         int pass = 0;
 
@@ -90,7 +90,6 @@ void adminMenu() {
             	
             	system("cls");
 			} while((!regex_search(name, regex("/^[a-zA-Z]+(([ a-zA-Z])?[a-zA-Z]*)*$/"))) && cout << "Invalid Name" << endl);*/
-            
             cout << "Enter customer's full name (Enter \"back\" to menu): ";
             getline(cin, name);
             
@@ -112,6 +111,7 @@ void adminMenu() {
             		pass = 1;
             	
 			} while(pass == 0);
+
 
             accNum = accounts->getLastNum(accounts);
             if(accNum == 0)
@@ -141,7 +141,7 @@ void adminMenu() {
             if(option == 'N' || option == 'n')
             {
             	system("cls");
-            	
+
             	cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
@@ -157,6 +157,7 @@ void adminMenu() {
         		if(option == 2)
             		main();
 			}
+
         } while(option == 'Y' || option == 'y');
     }
 
@@ -171,7 +172,7 @@ void adminMenu() {
         
         do {
             system("cls");
-
+          
 			do
 			{
 				cout << "Enter the Account's No. to be modified (1 to menu): ";
@@ -219,7 +220,7 @@ void adminMenu() {
             {
             	system("cls");
             	
-            	cout << "=================================================" << endl;;
+            cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
         		cout << "=================================================" << endl;;
@@ -276,7 +277,7 @@ void adminMenu() {
             {
             	system("cls");
             	
-            	cout << "=================================================" << endl;;
+            cout << "=================================================" << endl;;
         		cout << "|	1. Go back to Administrator's Menu	|" << endl;
         		cout << "|	2. Go back to Main Menu          	|" << endl;
         		cout << "=================================================" << endl;;
@@ -351,9 +352,8 @@ void adminMenu() {
 
             cout << endl;
 		} while(option == 'Y' || option == 'y');
-    }
 
-	    else if(menu == 6) {
+	  else if(menu == 6) {
 				
 		char answer;
 		

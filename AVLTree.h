@@ -9,7 +9,7 @@ public:
     int pin; // PIN Number
     int num; // Bank Account No.
     string name; // User's Full Name
-    string nik; // ID Number or Nomor Induk Kependudukan
+    long long nik; // ID Number or Nomor Induk Kependudukan
     char gender; // Either M(ale) or F(emale)
     int bal; // User's Current Balance
 
@@ -18,7 +18,7 @@ public:
     int height;
 
     // Node constructor of a parameterized Bank Account
-    Node(int pin, int num, string name, string nik, char gender, int bal) {
+    Node(int pin, int num, string name, long long nik, char gender, int bal) {
         this->pin = pin;
         this->num = num;
         this->name = name;
@@ -36,16 +36,16 @@ public:
     Node* getLastNode(Node* node);
     Node* balanceTree(Node* node);
 
-    Node* createAccount(Node* node, int pin, int num, string name, string nik, char gender, int bal);
+    Node* createAccount(Node* node, int pin, int num, string name, long long nik, char gender, int bal);
     Node* deleteAccount(Node* node, int num);
     bool findAccount(Node* node, int num);
-    bool pinValidator(Node* node, int num, int pin);
+    int pinValidator(Node* node, int num, int pin);
     int getLastNum(Node* node);
     int showAccountInfo(Node* node, int num);
     void displayAllAccounts(Node* node);
-    void depositFunds(Node* node, int num, int bal);
-    bool withdrawFunds(Node* node, int num, int bal);
-    void modifyInfo(Node* node, int pin, int num, string name, string nik, char gender, int bal);
+    int depositFunds(Node* node, int num, int bal);
+    int withdrawFunds(Node* node, int num, int bal);
+    int modifyInfo(Node* node, int pin, int num, string name, long long nik, char gender, int bal);
 };
 
 #endif

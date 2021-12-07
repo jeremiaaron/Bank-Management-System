@@ -112,7 +112,7 @@ Node* Node::balanceTree(Node* node) {
 //---------------------------------------------------------------------------------------------------------
 
 // Function to create a Bank Account
-Node* Node::createAccount(Node* node, int pin, int num, string name, string nik, char gender, int bal) {
+Node* Node::createAccount(Node* node, int pin, int num, string name, long long nik, char gender, int bal) {
     
     // If the first Node of a tree or even the Node (at leaf node) after doing a recursive is NULL, then create the new Node (Bank Account) there
     // This if statement will only be executed when the recursive function has reached the leaf Node of a root Node
@@ -226,13 +226,13 @@ bool Node::findAccount(Node* node, int num) {
         else if(num == node->num)
             return true;
     }
-    cout << "Account does not exist" << endl;
+    //cout << "Account does not exist" << endl;
     // Return false if the Node traversal has reached the leaf Node
     return false;
 }
 
 // Find if user's Bank Account exist or not in the Binary Tree
-bool Node::pinValidator(Node* node, int num, int pin) {
+int Node::pinValidator(Node* node, int num, int pin) {
     
     // Loop until leaf Node
     while(node != NULL) {
@@ -243,12 +243,15 @@ bool Node::pinValidator(Node* node, int num, int pin) {
         else if(num > node->num)
             node = node->right;
         // If Bank Account No. matches the Bank Account No. on the current Node, return "true"
-        else if(num == node->num && pin == node->pin)
-            return true;
+        else if(num == node->num) {
+            if(pin == node->pin)
+                return 1;
+            else
+                return 0;
+        }
     }
-    cout << "PIN Invalid" << endl;
-    // Return false if the Node traversal has reached the leaf Node
-    return false;
+    // Return -1 if the Node traversal has reached the leaf Node
+    return -1;
 }
 
 // Obtain the last Bank Account No. at the leaf Node
@@ -320,7 +323,7 @@ void Node::displayAllAccounts(Node* node) {
 }
 
 // Function to deposit
-void Node::depositFunds(Node* node, int num, int bal) {
+int Node::depositFunds(Node* node, int num, int bal) {
   
     // Traverse the whole Binary Tree
     while(node != NULL) {
@@ -335,14 +338,17 @@ void Node::depositFunds(Node* node, int num, int bal) {
         // Check if Bank Account No. matches the Bank Account No. on the current Node
         else if(num == node->num) {
                 // Add the deposit to the user's account current balance
-                node->bal += bal;
-                cout << "Deposit Success" << endl;
+                node->bal = node->bal + bal;
+                //cout << "Deposit Success" << endl;
+                return 1;
         }
     }
+
+    return -1;
 }
 
-// Funciton to withdraw
-bool Node::withdrawFunds(Node* node, int num, int bal) {
+// Function to withdraw
+int Node::withdrawFunds(Node* node, int num, int bal) {
   
     // Traverse the whole Binary Tree
     while(node != NULL) {
@@ -359,22 +365,22 @@ bool Node::withdrawFunds(Node* node, int num, int bal) {
             // If the withdrawal fund is larger than the amount of current balance, return -2 
             if(node->bal < bal)
             {
-            	cout << "Not enough balance" << endl;
-                return false;
+            	//cout << "Not enough balance" << endl;
+                return 0;
 			}
             else
                 // Else withdraw the fund of the user's account current balance
-                node->bal -= bal;
-                cout << "Withdraw Success" << endl;
-                return true;
+                node->bal = node->bal - bal;
+                //cout << "Withdraw Success" << endl;
+                return 1;
         }
     }
     // Base return
-    return false;
+    return -1;
 }
 
 // Function to modify a user's Bank Account
-void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, char gender, int bal) {
+int Node::modifyInfo(Node* node, int pin, int num, string name, long long nik, char gender, int bal) {
 
     // Traverse the whole Binary Tree
     while(node != NULL) {
@@ -394,6 +400,10 @@ void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, cha
             node->nik = nik;
             node->gender = gender;
             node->bal = bal;
+
+            return 1;
         }
     }
+
+    return 0;
 }

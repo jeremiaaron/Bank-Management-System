@@ -112,7 +112,7 @@ Node* Node::balanceTree(Node* node) {
 //---------------------------------------------------------------------------------------------------------
 
 // Function to create a Bank Account
-Node* Node::createAccount(Node* node, int pin, int num, string name, string nik, string gender, float bal) {
+Node* Node::createAccount(Node* node, int pin, int num, string name, string nik, char gender, int bal) {
     
     // If the first Node of a tree or even the Node (at leaf node) after doing a recursive is NULL, then create the new Node (Bank Account) there
     // This if statement will only be executed when the recursive function has reached the leaf Node of a root Node
@@ -191,22 +191,22 @@ Node* Node::deleteAccount(Node* node, int num) {
 
         // If the left child is NUll, then replace the Node to be deleted with Node from the right child
         if(node->left == NULL) {
-            node = node->right;
-            delete tempNode;	
-		}
+            node = node->right;	
+	}
         // If the right child is NUll, then replace the Node to be deleted with Node from the left child
         else if(node->right == NULL) {
             node = node->left;
-            delete tempNode;
         }
 
-        // The replaced Node needs to be balanced again since Balance Factors (at the replace Node) may have been affected by the Node replacement
-        // Check also that the Node is not NULL to make sure
-        if(node != NULL) {
-            node = balanceTree(node);
-        }
+	delete tempNode;
     }
-
+	
+    // The replaced Node needs to be balanced again since Balance Factors (at the replace Node) may have been affected by the Node replacement
+    // Check also that the Node is not NULL to make sure
+    if(node != NULL) {
+        node = balanceTree(node);
+    }
+	
     // Return to root Node
     return node;
 }
@@ -320,7 +320,7 @@ void Node::displayAllAccounts(Node* node) {
 }
 
 // Function to deposit
-void Node::depositFunds(Node* node, int num, float bal) {
+void Node::depositFunds(Node* node, int num, int bal) {
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -341,7 +341,7 @@ void Node::depositFunds(Node* node, int num, float bal) {
 }
 
 // Funciton to withdraw
-bool Node::withdrawFunds(Node* node, int num, float bal) {
+bool Node::withdrawFunds(Node* node, int num, int bal) {
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch
@@ -372,7 +372,7 @@ bool Node::withdrawFunds(Node* node, int num, float bal) {
 }
 
 // Function to modify a user's Bank Account
-void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, string gender, float bal) {
+void Node::modifyInfo(Node* node, int pin, int num, string name, string nik, char gender, int bal) {
     // Traverse the whole Binary Tree
     while(node != NULL) {
         // If Bank Account No. is smaller than the Bank Account No. on the current Node, traverse to the left branch

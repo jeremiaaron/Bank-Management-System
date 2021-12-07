@@ -1,11 +1,23 @@
 #include <iostream>
 #include "AVLTree.h"
 #include "TransacHistory.h"
-#include <regex>
-#include <string>
 using namespace std;
 
 int main();
+
+bool validateString(string s) {
+	for(const char c : s) {
+		if(!isalpha(c) && !isspace(c))
+			return false;
+	}
+
+	return true;
+}
+
+void resetLine() {
+	printf("\x1b[A");
+	printf("\33[2K");
+}
 
 Node* accounts = NULL;
 Queue* transaction_History = new Queue(1000);
@@ -72,45 +84,46 @@ void adminMenu() {
 
     else if(menu == 2) {
         string name;
-        string nik;
+        long long nik;
         char gender;
         int num, accNum, n = 0;
         int pin;
         float bal;
         char option;
-        int pass = 0;
 
         do {
-            system("cls");
 
-        	/*do
+        	do
 			{
+            	system("cls");
+
 				cout << "Enter customer's full name (Enter \"back\" to menu): ";
             	getline(cin, name);
             	
-            	system("cls");
-			} while((!regex_search(name, regex("/^[a-zA-Z]+(([ a-zA-Z])?[a-zA-Z]*)*$/"))) && cout << "Invalid Name" << endl);*/
-            cout << "Enter customer's full name (Enter \"back\" to menu): ";
-            getline(cin, name);
-            
-            if(name == "back")
-            	adminMenu();
+				if(name == "back")
+            		adminMenu();
+
+			} while(!validateString(name));
 
 			do
 			{
-				cout << "Enter customer's NIK: ";
+				cout << "Enter customer's NIK (16 digits): ";
             	cin >> nik; getchar();
-			} while(nik == "1000000000000000" || nik == "9999993112999999");
+
+				if(nik < 1000000000000000 || nik > 9999993112999999)
+					resetLine();
+
+			} while(nik < 1000000000000000 || nik > 9999993112999999);
 
 			do
 			{
 				cout << "Enter customer's gender (F/M): ";
             	cin >> gender; getchar();
             	
-            	if(gender == 'F' || gender == 'M')
-            		pass = 1;
-            	
-			} while(pass == 0);
+            	if(gender != 'F' && gender != 'M')
+					resetLine();
+
+			} while(gender != 'F' && gender != 'M');
 
 
             accNum = accounts->getLastNum(accounts);
@@ -122,14 +135,22 @@ void adminMenu() {
 
 			do
 			{
-				cout << "Enter customer's account PIN: ";
+				cout << "Enter customer's account PIN (6 digits): ";
             	cin >> pin; getchar();
+
+				if(pin < 100000 || pin > 999999)
+					resetLine();
+
 			} while(pin < 100000 || pin > 999999);
             
             do
             {
-            	cout << "Enter the amount of initial deposit (min. 50k): ";
+            	cout << "Enter the amount of initial deposit (min. 50000): ";
             	cin >> bal; getchar();
+
+				if(bal < 50000)
+					resetLine();
+
 			} while(bal < 50000);
 
             
@@ -163,53 +184,89 @@ void adminMenu() {
 
     else if(menu == 3) {
 		string name;
-        string nik;
+        long long nik;
         char gender;
-        int num;
         int pin;
         int bal;
         char option;
         
         do {
-            system("cls");
-          
+			int num = -1;
+
 			do
 			{
-				cout << "Enter the Account's No. to be modified (1 to menu): ";
-				cin >> num;
+            	system("cls");
+
+				if(num == 0)
+					cout << "Account does not exist" << endl;
+
+				cout << "Enter the Account No. to be modified (1241xxxx) (1 to menu): ";
+				cin >> num; getchar();
 				
 				if(num == 1)
 					adminMenu();
 				
-				if(accounts->findAccount(accounts, num))
-					continue;
-				else
-					num = 0;
-					cout << "Account does not exist" << endl;
+				else if(num < 12410000 || num > 12419999)
+					resetLine();
+
+				else {
+					if(accounts->findAccount(accounts, num))
+						continue;
+
+					else
+						num = 0;
+				}
+
 			} while(num < 12410000 || num > 12419999);
+
+			cout << "=========================================" << endl;
+			cout << "|\tEnter New Account Info Below\t|" << endl;
+			cout << "=========================================" << endl;
 			
-			system("cls");
+			do {
+				cout << "Enter new Account's name: ";
+				getline(cin, name);
 
-			cout << "=========================================" << endl;;
-			cout << "|\tEnter New Account Info Below\t|" << endl;;
-			cout << "=========================================" << endl;;
-			
-            cout << "Enter new Account's name: ";
-            getline(cin, name);
+				if(!validateString(name))
+					resetLine();
 
-            cout << "Enter new Account's NIK: ";
-            cin >> nik; getchar();
+			} while(!validateString(name));
 
-            cout << "Enter new Account's gender (F/M): ";
-            cin >> gender; getchar();
+			do {
+				cout << "Enter new Account's NIK (16 digits): ";
+				cin >> nik; getchar();
 
-            cout << "The customer's account number is " << num << endl;
+				if(nik < 1000000000000000 || nik > 9999999999999999)
+					resetLine();
 
-            cout << "Enter customer's account PIN: ";
-            cin >> pin; getchar();
+			} while(nik < 1000000000000000 || nik > 9999999999999999);
+
+			do {
+				cout << "Enter new Account's gender (F/M): ";
+				cin >> gender; getchar();
+
+				if(gender != 'F' && gender != 'M')
+					resetLine();
+
+			} while(gender != 'F' && gender != 'M');
+
+			do {
+				cout << "Enter new customer's account PIN (6 digits): ";
+				cin >> pin; getchar();
+
+				if(pin < 100000 || pin > 999999)
+					resetLine();
+
+			} while(pin < 100000 || pin > 999999);
             
-            cout << "Enter the amount of initial deposit: ";
-            cin >> bal; getchar();
+			do {
+				cout << "Enter new amount of balance: ";
+				cin >> bal; getchar();
+
+				if(bal < 0)
+					resetLine();
+
+			} while(bal < 0);
             
             accounts->modifyInfo(accounts, pin, num, name, nik, gender, bal);
 
@@ -241,34 +298,41 @@ void adminMenu() {
     }
 
     else if(menu == 4) {
-    	
-    	system("cls");
-    	
-    	int num;
+
     	char option;
     	
 		do
 		{
+    		int num = -1;
+
 			do
 			{
-				cout << "Enter the Account's No. to be deleted (1 to menu): ";
-				cin >> num; getchar();
-				
 				system("cls");
-				
+
+				if(num == 0)
+					cout << "Account does not exist" << endl;
+
+				cout << "Enter the Account No. to be deleted (1241xxxx) (1 to menu): ";
+				cin >> num; getchar();
 				if(num == 1)
 					adminMenu();
 				
-				if(accounts->findAccount(accounts, num))
-					continue;
+				else if(num < 12410000 || num > 12419999)
+					resetLine();
+
 				else
-					num = 0;
-					cout << "Account does not exist" << endl;
+					if(accounts->findAccount(accounts, num))
+						continue;
+
+					else {
+						num = 0;
+				}
+
 			} while(num < 12410000 || num > 12419999);
 			
 			accounts = accounts->deleteAccount(accounts, num);
 			
-			cout << "Account has been successfully delete!" << endl;
+			cout << "Account has been successfully deleted!" << endl;
 			
 			cout << "Do you want to delete another account? (Y/N): ";
             cin >> option; getchar();
@@ -299,31 +363,41 @@ void adminMenu() {
 
     else if(menu == 5) {
     	
-    	system("cls");
-    	
     	int num;
     	char option;
-    	
+		
 		do
 		{
+			int n = 0;
+
 			system("cls");
-			int n, num;
-	    	
+
 			do
 			{
-				cout << "Enter the Account's No. to be displayed (1 to menu): ";
+				if(n == -1) {
+					system("cls");
+					cout << "Account does not exist" << endl;
+				}
+
+				cout << "Enter the Account No. to be displayed (1241xxxx) (1 to menu): ";
 				cin >> num; getchar();
 				
 				if(num == 1)
 					adminMenu();
-					
-				system("cls");
-					
-				if(accounts->findAccount(accounts, num) == false)
+				
+				else if(num < 12410000 || num > 12419999) {
+					if(n == -1) {
+						system("cls");
+						n = 0;
+					}
+					else
+						resetLine();
+				}
+			
+				else if(accounts->findAccount(accounts, num) == false)
 					n = -1;
-				else n = 1;
 	
-			} while(n == -1);
+			} while(accounts->findAccount(accounts, num) == false);
 			
 			n = accounts->showAccountInfo(accounts, num);
 			
@@ -352,8 +426,8 @@ void adminMenu() {
 
             cout << endl;
 		} while(option == 'Y' || option == 'y');
-    }
-	    
+	}
+
 	  else if(menu == 6) {
 				
 		char answer;
@@ -375,6 +449,7 @@ void adminMenu() {
 			adminMenu();
 		}
 	}
+
     else if(menu == 0)
        	main();
 
@@ -409,22 +484,23 @@ int customerMenu() {
     	
 		do
 		{
-			cout << "Enter the Account's No. to be displayed (1 to menu): ";
+			cout << "Enter the Account No. to be displayed (1241xxxx) (1 to menu): ";
 			cin >> num; getchar();
 			
 			if(num == 1)
-				adminMenu();
+				customerMenu();
 			
-			system("cls");	
-			
-			if(accounts->findAccount(accounts, num) == false)
-				n = -1;
-			else n = 1;
+			else if(num < 12410000 || num > 12419999)
+				resetLine();
+
+			else {
+				if(accounts->findAccount(accounts, num) == false)
+					n = -1;
+
+				else n = 1;
+			}
 
 		} while(n == -1);
-    	
-    	if(num == 1)
-    		customerMenu();
     	
     	n = accounts->showAccountInfo(accounts, num);
 
@@ -452,27 +528,42 @@ int customerMenu() {
     	int n, num;
     	int dep;
     	char option;
-    	
+
 		do
 		{
+    		int valid = -2;
+			
 			do
 			{
-				cout << "Enter your Bank Account No. (1 to menu): ";
+				system("cls");
+
+				if(valid == -1)
+					cout << "Account does not exist" << endl;
+				
+				else if(valid == 0)
+					cout << "Wrong PIN" << endl;
+
+				cout << "Enter your Bank Account No. (1241xxxx) (1 to menu): ";
 				cin >> num; getchar();
 				
 				if(num == 1)
 					customerMenu();
-				
+
 				cout << "Enter your PIN : ";
 				cin >> pin; getchar();
-				
-				system("cls");
 
-			} while(!accounts->pinValidator(accounts, num, pin));
+				valid = accounts->pinValidator(accounts, num, pin);
+
+			} while(valid == 0 || valid == -1);
 			
-			
-			cout << "Enter amount of deposit: ";
-			cin >> dep; getchar();
+			do {
+				cout << "Enter amount of deposit: ";
+				cin >> dep; getchar();
+
+				if(dep < 0)
+					resetLine();
+
+			} while(dep < 0);
 			
 			accounts->depositFunds(accounts, num, dep);
 			
@@ -513,36 +604,53 @@ int customerMenu() {
     	int num;
     	int wit;
     	char option;
-    	
+
 		do
 		{
+			int valid = -2;
+			int withdrawn = -2;
+
 			do
 			{
-				cout << "Enter your Bank Account No. (1 to menu): ";
+				system("cls");
+
+				if(valid == -1)
+					cout << "Account does not exist" << endl;
+
+				else if(valid == 0)
+					cout << "Wrong PIN" << endl;
+
+				cout << "Enter your Bank Account No. (1241xxxx) (1 to menu): ";
 				cin >> num; getchar();
 				
 				if(num == 1)
 					customerMenu();
-				
+
 				cout << "Enter your PIN : ";
 				cin >> pin; getchar();
-				
-				system("cls");
 
-			} while(!accounts->pinValidator(accounts, num, pin));
+				valid = accounts->pinValidator(accounts, num, pin);
+
+			} while(valid == 0 || valid == -1);
 			
 			do
 			{
-				cout << "Enter amount to withdraw: ";
+				if(withdrawn == 0)
+					cout << "Not enough balance" << endl;
+
+				cout << "Enter amount to withdraw (min. 50000): ";
 				cin >> wit; getchar();
 				
-				system("cls");
-				
-			} while(!accounts->withdrawFunds(accounts, num, wit));
+				if(wit < 50000)
+					resetLine();
+
+				int withdrawn = accounts->withdrawFunds(accounts, num, wit);
+
+			} while(withdrawn == 0 || wit < 50000);
 			
 			transaction_History->enqueueWithdrawal(transaction_History, num, wit);
 			
-			cout << "Do you want to deposit again? (Y/N): ";
+			cout << "Do you want to withdraw again? (Y/N): ";
             cin >> option; getchar();
 
             if(option == 'N' || option == 'n')
@@ -599,6 +707,7 @@ int customerMenu() {
 }
 
 int main() {
+	
     int menu = mainMenu();
 
     system("cls");

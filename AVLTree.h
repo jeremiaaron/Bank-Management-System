@@ -43,7 +43,7 @@ public:
     int getLastNum(Node* node);
     int showAccountInfo(Node* node, int num);
     void displayAllAccounts(Node* node);
-    int depositFunds(Node* node, int num, int bal);
+    void depositFunds(Node* node, int num, int bal);
     bool withdrawFunds(Node* node, int num, int bal);
     void modifyInfo(Node* node, int pin, int num, string name, string nik, char gender, int bal);
 };

@@ -352,7 +352,8 @@ void adminMenu() {
 
             cout << endl;
 		} while(option == 'Y' || option == 'y');
-
+    }
+	    
 	  else if(menu == 6) {
 				
 		char answer;

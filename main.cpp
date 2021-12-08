@@ -439,11 +439,10 @@ void adminMenu() {
 		char answer;
 		
     	cout << "=========================================================" << endl;;
-		cout << "|	1. Go back to Administrator's Menu			|" << endl;
-		cout << "|	2. Go back to Main Menu          			|" << endl;
+		cout << "|	1. Go back to Administrator's Menu		|" << endl;
+		cout << "|	2. Go back to Main Menu          		|" << endl;
 		cout << "|	3. Show a user's transaction history		|" << endl;
-		cout << "|	4. Show all transaction history    			|" << endl;
-		cout << "|	5. Delete a user's transaction history    	|" << endl;
+		cout << "|	4. Show all transaction history    		|" << endl;
 		cout << "=========================================================" << endl;;
 		
     	cout << "Enter your option: ";
@@ -457,6 +456,8 @@ void adminMenu() {
         {
 			do
 			{
+				system("cls");
+				
 				if(n == -1) {
 					system("cls");
 					cout << "Account does not exist" << endl;
@@ -504,83 +505,9 @@ void adminMenu() {
 		}
 		else if(option == 4)
 		{
-			do
-			{
-				if(n == -1) {
-					system("cls");
-					cout << "Account does not exist" << endl;
-				}
-
-				cout << "Enter the Account No. to be displayed (1241xxxx) (1 to menu): ";
-				cin >> num; getchar();
-				
-				if(num == 1)
-					adminMenu();
-				
-				else if(num < 12410000 || num > 12419999) {
-					if(n == -1) {
-						system("cls");
-						n = 0;
-					}
-					else
-						resetLine();
-				}
+			system("cls");
 			
-				else if(accounts->findAccount(accounts, num) == false)
-					n = -1;
-	
-			} while(accounts->findAccount(accounts, num) == false);
-			
-			transaction_History->dequeue_UserAcc(transaction_History, num);
-			
-			do
-			{
-				cout << endl << endl;
-		    	cout << "=================================================" << endl;;
-				cout << "|	1. Go back to Administrator's Menu	|" << endl;
-				cout << "|	2. Go back to Main Menu          	|" << endl;
-				cout << "=================================================" << endl;;
-				
-        		cout << "Enter your option: ";
-        		cin >> option;
-        		
-        		if(option == 1)
-            		adminMenu();
-        		if(option == 2)
-            		main();
-	    		
-			} while(option < 1 || option > 2);
-		}
-		else if(option == 5)
-		{
-						do
-			{
-				if(n == -1) {
-					system("cls");
-					cout << "Account does not exist" << endl;
-				}
-
-				cout << "Enter the Account No. to be displayed (1241xxxx) (1 to menu): ";
-				cin >> num; getchar();
-				
-				if(num == 1)
-					adminMenu();
-				
-				else if(num < 12410000 || num > 12419999) {
-					if(n == -1) {
-						system("cls");
-						n = 0;
-					}
-					else
-						resetLine();
-				}
-			
-				else if(accounts->findAccount(accounts, num) == false)
-					n = -1;
-	
-			} while(accounts->findAccount(accounts, num) == false);
-			
-			transaction_History->dequeue_UserAcc(transaction_History, num);
+			transaction_History->showAllHistory(transaction_History);
 			
 			do
 			{
@@ -640,16 +567,13 @@ int customerMenu() {
 			
 			if(num == 1)
 				customerMenu();
-			
 			else if(num < 12410000 || num > 12419999)
+			{
 				resetLine();
-
-			else {
-				if(accounts->findAccount(accounts, num) == false)
-					n = -1;
-
-				else n = 1;
+				n = -1;
 			}
+			else if(accounts->findAccount(accounts, num) == false)
+				n = -1;
 
 		} while(n == -1);
     	
@@ -875,6 +799,7 @@ int customerMenu() {
 			} while(valid == 0 || valid == -1);
 			
 			transaction_History->showUserHistory(transaction_History, num);
+			cout << endl;
 			
 			do
 			{
@@ -888,6 +813,14 @@ int customerMenu() {
 	    		for(int i = 0; i < answer.length(); i++)
 	    		{
 	    			answer[i] = tolower(answer[i]);
+				}
+				
+				if(answer != "back")
+				{
+					resetLine();
+					resetLine();
+					resetLine();
+					resetLine();
 				}
 	    		
 			} while(answer != "back");

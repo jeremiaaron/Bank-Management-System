@@ -69,52 +69,6 @@ void Queue::enqueueWithdrawal(Queue* queue, int num, int wit)
 	queue->size = queue->size + 1; // Increase the size as the expression is added
 }
 
-// Remove a user's bank account transaction history
-void Queue::dequeue_UserAcc(Queue* queue, int num) 
-{
-	Queue* temp = queue;
-	int exist = 0;
-	
-	if (isEmpty(queue)) {
-		cout << "Error! Empty History" << endl << endl;
-		return;
-	}
-	
-	for(int i = 0; i < (queue->size-1); i++)
-	{
-		if(temp->accNum[i] == num)
-			exist++;
-	}
-	if(exist == 0)
-	{
-		cout << "History does not exist" << endl << endl;
-		return;
-	}
-
-	for(int i = 0; i < (queue->size-1); i++) { // Loop from the deleted element to shift all the following elements on the right where the element being deleted is located to the left so no gap is present
-    	
-	    // If the queue's account number matches in given account number
-		if(queue->accNum[i] == num)
-		{	
-			for(int j = i; j < (queue->size); j++)
-			{
-				queue->array[j] = queue->array[j+1];
-				queue->accNum[j] = queue->accNum[j+1];
-			}
-		}
-	}
-	queue->rear = (queue->rear - 1) % queue->capacity; // Decrease rear by one because an element is deleted
-	queue->size = queue->size - 1; // Decrease size by one too
-      	
-    if(queue->front == queue->rear) { // If front and rear is pointng at the same array element, assign -1 to both
-		queue->front = -1;
-		queue->rear = -1;
-		return;
-	}
-
-	else cout<<"User's Transaction History deleted successfully\n" << endl;
-}
-
 // Show a user's account bank transaction
 void Queue::showUserHistory(Queue* queue, int num) {
 	
@@ -124,9 +78,13 @@ void Queue::showUserHistory(Queue* queue, int num) {
 	if(isEmpty(queue)) {
 		cout << "\t\t\tEmpty History\t\n" << endl;
 	}else {
+		int j = 0;
 		for(int i = 0; i < queue->size; i++) {
 			if(queue->accNum[i] == num)
-				cout << i + 1 << ". " << queue->array[i] << "\n" << endl;
+			{
+				j += 1;
+				cout << j << ". " << queue->array[i] << "\n" << endl;
+			}
 			else continue;
 		}
 	}
@@ -143,7 +101,7 @@ void Queue::showAllHistory(Queue* queue) {
 	if(isEmpty(queue)) {
 		cout << "\t\t\tEmpty History\t\n" << endl;
 	}else {
-		for(int i = 0; i < queue->size; i++) {
+		for(int i = 0; i <= (queue->size-1); i++) {
 			cout << i + 1 << ". " << queue->array[i] << "\n" << endl;		
 		}
 	}

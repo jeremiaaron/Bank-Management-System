@@ -525,6 +525,55 @@ void adminMenu() {
 	    		
 			} while(option < 1 || option > 2);
 		}
+		/*else if(option == 5)
+		{
+			do
+			{
+				system("cls");
+				
+				if(n == -1) {
+					system("cls");
+					cout << "Account does not exist" << endl;
+				}
+
+				cout << "Enter the Account No. to be displayed (1241xxxx) (1 to menu): ";
+				cin >> num; getchar();
+				
+				if(num == 1)
+					adminMenu();
+				
+				else if(num < 12410000 || num > 12419999) {
+					if(n == -1) {
+						system("cls");
+						n = 0;
+					}
+					else
+						resetLine();
+				}
+			
+				else if(accounts->findAccount(accounts, num) == false)
+					n = -1;
+	
+			} while(accounts->findAccount(accounts, num) == false);
+			
+			do
+			{
+				cout << endl << endl;
+		    	cout << "=================================================" << endl;;
+				cout << "|	1. Go back to Administrator's Menu	|" << endl;
+				cout << "|	2. Go back to Main Menu          	|" << endl;
+				cout << "=================================================" << endl;;
+				
+        		cout << "Enter your option: ";
+        		cin >> option;
+        		
+        		if(option == 1)
+            		adminMenu();
+        		if(option == 2)
+            		main();
+	    		
+			} while(option < 1 || option > 2);
+		}*/
 	}
     else if(menu == 0)
        	main();
@@ -556,7 +605,7 @@ int customerMenu() {
     	
     	system("cls");
     	
-		int n, num;
+		int n = 0, num;
     	
 		do
 		{
@@ -571,7 +620,15 @@ int customerMenu() {
 				n = -1;
 			}
 			else if(accounts->findAccount(accounts, num) == false)
+			{
+				resetLine();
 				n = -1;
+			}
+			else if(accounts->findAccount(accounts, num) == true)
+			{
+				n = 1;
+				break;
+			}
 
 		} while(n == -1);
     	

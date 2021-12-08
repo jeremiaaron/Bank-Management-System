@@ -333,8 +333,6 @@ void adminMenu() {
 			
 			accounts = accounts->deleteAccount(accounts, num);
 			
-			transaction_History->dequeue_UserAcc(transaction_History, num);
-			
 			cout << "Account has been successfully deleted!" << endl;
 			
 			cout << "Do you want to delete another account? (Y/N): ";

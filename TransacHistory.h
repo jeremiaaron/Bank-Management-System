@@ -11,6 +11,7 @@ public:
 	int size; // Size of elements filled into the array
 	unsigned capacity; // Size of array
 	string* array; // Create a pointer array
+	int* accNum; // Create another pointer array
 	
 	// constructor to create a queue
 	// of given capacity.
@@ -28,8 +29,9 @@ public:
 	bool isEmpty(Queue* queue);
 	void enqueueDeposit(Queue* queue, int num, int dep);
 	void enqueueWithdrawal(Queue* queue, int num, int wit);
-	void dequeue_All(Queue* queue);
-	void showHistory(Queue* queue);
+	void dequeue_UserAcc(Queue* queue, int num);
+	void showUserHistory(Queue* queue, int num);
+	void showAllHistory(Queue* queue);
 };
 
 #endif

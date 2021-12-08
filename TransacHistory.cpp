@@ -39,6 +39,7 @@ void Queue::enqueueDeposit(Queue* queue, int num, int dep)
 	
 	queue->rear = (queue->rear + 1) % queue->capacity; // Modulo here is used to limit the shifting of rear from one element to another in the array
 	queue->array[queue->rear] = log; // Store the string expression into the array
+	queue->accNum[queue->rear] = num; // Store the account number
 	queue->size = queue->size + 1; // Increase the size as the expression is added
 }
 
@@ -64,32 +65,77 @@ void Queue::enqueueWithdrawal(Queue* queue, int num, int wit)
 	
 	queue->rear = (queue->rear + 1) % queue->capacity; // Modulo here is used to limit the shifting of rear from one element to another in the array
 	queue->array[queue->rear] = log; // Store the string expression into the array
+	queue->accNum[queue->rear] = num; // Store the account number
 	queue->size = queue->size + 1; // Increase the size as the expression is added
 }
 
-// Remove all expressions from queue
-void Queue::dequeue_All(Queue* queue) {
+// Remove a user's bank account transaction history
+void Queue::dequeue_UserAcc(Queue* queue, int num) 
+{
+	Queue* temp = queue;
+	int exist = 0;
+	
 	if (isEmpty(queue)) {
-		cout << "\tError! Empty History\t" << endl;
+		cout << "Error! Empty History" << endl << endl;
 		return;
 	}
 	
-	// Loop through the array and basically have the rear "pointer" go back all the way to the front "pointer"
-	int initialSize = queue->size;
-	for(int i = 0; i < initialSize; i++) {
-		queue->rear = (queue->rear - 1) % queue->capacity; // Modulo here is used to limit the shifting of front from one element to another in the array
-		queue->size = queue->size - 1;
-		
-		if(queue->front == queue->rear) { // If front and rear is pointng at the same array element, assign -1 to both and decrease size by -1 so that the size will be zero
-			queue->size = queue->size - 1;
-			queue->front = -1;
-			queue->rear = -1;
-			return;
+	for(int i = 0; i < (queue->size-1); i++)
+	{
+		if(temp->accNum[i] == num)
+			exist++;
+	}
+	if(exist == 0)
+	{
+		cout << "History does not exist" << endl << endl;
+		return;
+	}
+
+	for(int i = 0; i < (queue->size-1); i++) { // Loop from the deleted element to shift all the following elements on the right where the element being deleted is located to the left so no gap is present
+    	
+	    // If the queue's account number matches in given account number
+		if(queue->accNum[i] == num)
+		{	
+			for(int j = i; j < (queue->size); j++)
+			{
+				queue->array[j] = queue->array[j+1];
+				queue->accNum[j] = queue->accNum[j+1];
+			}
 		}
 	}
+	queue->rear = (queue->rear - 1) % queue->capacity; // Decrease rear by one because an element is deleted
+	queue->size = queue->size - 1; // Decrease size by one too
+      	
+    if(queue->front == queue->rear) { // If front and rear is pointng at the same array element, assign -1 to both
+		queue->front = -1;
+		queue->rear = -1;
+		return;
+	}
+
+	else cout<<"User's Transaction History deleted successfully\n" << endl;
 }
 
-void Queue::showHistory(Queue* queue) {
+// Show a user's account bank transaction
+void Queue::showUserHistory(Queue* queue, int num) {
+	
+	cout << "|-------------------TRANSACTION HISTORY-------------------|\n" << endl;
+	
+	// Check if the array is empty
+	if(isEmpty(queue)) {
+		cout << "\t\t\tEmpty History\t\n" << endl;
+	}else {
+		for(int i = 0; i < queue->size; i++) {
+			if(queue->accNum[i] == num)
+				cout << i + 1 << ". " << queue->array[i] << "\n" << endl;
+			else continue;
+		}
+	}
+	cout << "|---------------------------END---------------------------|\n" << endl;
+	return;
+}
+
+// Show all transaction history each bank accounts
+void Queue::showAllHistory(Queue* queue) {
 	
 	cout << "|-------------------TRANSACTION HISTORY-------------------|\n" << endl;
 	
